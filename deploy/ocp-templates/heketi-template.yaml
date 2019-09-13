@@ -64,7 +64,7 @@ objects:
         serviceAccountName: heketi-service-account
         containers:
         - name: heketi
-          image: heketi/heketi:dev
+          image: ibmcom/heketi:v8.0.0.1
           imagePullPolicy: IfNotPresent
           env:
           - name: HEKETI_USER_KEY

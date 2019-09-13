@@ -862,6 +862,10 @@ if [[ ${EXISTS_DEPLOY_HEKETI} -eq 1 ]] && [[ ${EXISTS_HEKETI} -eq 0 ]]; then
       fi
     fi
     eval_output "${heketi_cli} setup-openshift-heketi-storage --listfile=/tmp/heketi-storage.json ${durability} 2>&1"
+    # Fix for using Power Heketi image
+    if [[ "ppc64le" == "$(arch)" ]] ; then
+      eval_output "${CLI} exec -i ${heketi_pod} -- sed -i 's/heketi\/heketi:dev/ibmcom\/heketi:v8.0.0.1/g' /tmp/heketi-storage.json 2>&1"
+    fi
     if [[ ${?} != 0 ]]; then
       output "Failed on setup openshift heketi storage"
       output "This may indicate that the storage must be wiped and the GlusterFS nodes must be reset."
